@@ -1,4 +1,4 @@
-package android.test.exifapplication;
+package android.test.concurrent;
 
 import android.app.Application;
 
