@@ -2,6 +2,7 @@ package android.test.concurrent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.test.concurrent.lock.Channel;
 import android.test.concurrent.wait_notifyall.Consumer;
 import android.test.concurrent.wait_notifyall.Producer;
 import android.view.View;
@@ -9,14 +10,13 @@ import android.widget.Button;
 
 import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class MainActivity extends Activity {
 
     LinkedList<String> Queue = new LinkedList<String>();
-    LinkedBlockingQueue LBQueue;
     ArrayBlockingQueue<String> BQueue = new ArrayBlockingQueue<String>(10);
+    Channel Channel = new Channel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,15 @@ public class MainActivity extends Activity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 使用Lock和Condition实现
+                android.test.concurrent.lock.Producer p1 = new android.test.concurrent.lock.Producer("p1", Channel);
+                android.test.concurrent.lock.Producer p2 = new android.test.concurrent.lock.Producer("p2", Channel);
+                p2.start();
+                p1.start();
+                android.test.concurrent.lock.Consumer c1 = new android.test.concurrent.lock.Consumer("c1", Channel);
+                android.test.concurrent.lock.Consumer c2 = new android.test.concurrent.lock.Consumer("c2", Channel);
+                c2.start();
+                c1.start();
             }
         });
     }
