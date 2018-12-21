@@ -3,6 +3,7 @@ package android.test.concurrent;
 import android.app.Activity;
 import android.os.Bundle;
 import android.test.concurrent.lock.Channel;
+import android.test.concurrent.semaphore.Shared;
 import android.test.concurrent.wait_notifyall.Consumer;
 import android.test.concurrent.wait_notifyall.Producer;
 import android.view.View;
@@ -17,6 +18,7 @@ public class MainActivity extends Activity {
     LinkedList<String> Queue = new LinkedList<String>();
     ArrayBlockingQueue<String> BQueue = new ArrayBlockingQueue<String>(10);
     Channel Channel = new Channel();
+    Shared Shared = new Shared();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,22 @@ public class MainActivity extends Activity {
                 android.test.concurrent.lock.Consumer c1 = new android.test.concurrent.lock.Consumer("c1", Channel);
                 android.test.concurrent.lock.Consumer c2 = new android.test.concurrent.lock.Consumer("c2", Channel);
                 c2.start();
+                c1.start();
+            }
+        });
+
+        Button btn4 = (Button) findViewById(R.id.btn4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 使用semaphore实现
+                android.test.concurrent.semaphore.Producer p1 = new android.test.concurrent.semaphore.Producer("p1", Shared);
+                android.test.concurrent.semaphore.Producer p2 = new android.test.concurrent.semaphore.Producer("p2", Shared);
+                p2.start();
+                p1.start();
+                android.test.concurrent.semaphore.Consumer c1 = new android.test.concurrent.semaphore.Consumer("c1", Shared);
+                android.test.concurrent.semaphore.Consumer c2 = new android.test.concurrent.semaphore.Consumer("c2", Shared);
+//                c2.start();
                 c1.start();
             }
         });
