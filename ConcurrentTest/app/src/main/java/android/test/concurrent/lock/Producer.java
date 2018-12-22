@@ -4,9 +4,9 @@ import android.compact.utils.MathCompactUtil;
 
 public class Producer extends Thread {
     String name;
-    Channel channel;
+    ChannelImpl channel;
 
-    public Producer(String name, Channel channel) {
+    public Producer(String name, ChannelImpl channel) {
         super();
         this.name = name;
         this.channel = channel;

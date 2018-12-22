@@ -3,6 +3,7 @@ package android.test.concurrent;
 import android.app.Activity;
 import android.os.Bundle;
 import android.test.concurrent.lock.Channel;
+import android.test.concurrent.lock.Channel2;
 import android.test.concurrent.semaphore.Shared;
 import android.test.concurrent.wait_notifyall.Consumer;
 import android.test.concurrent.wait_notifyall.Producer;
@@ -11,13 +12,16 @@ import android.widget.Button;
 
 import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class MainActivity extends Activity {
 
     LinkedList<String> Queue = new LinkedList<String>();
+    LinkedBlockingQueue bQ;
     ArrayBlockingQueue<String> BQueue = new ArrayBlockingQueue<String>(10);
     Channel Channel = new Channel();
+    Channel2 Channel2 = new Channel2();
     Shared Shared = new Shared();
 
     @Override
@@ -61,12 +65,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // 使用Lock和Condition实现
-                android.test.concurrent.lock.Producer p1 = new android.test.concurrent.lock.Producer("p1", Channel);
-                android.test.concurrent.lock.Producer p2 = new android.test.concurrent.lock.Producer("p2", Channel);
+                android.test.concurrent.lock.Producer p1 = new android.test.concurrent.lock.Producer("p1", Channel2);
+                android.test.concurrent.lock.Producer p2 = new android.test.concurrent.lock.Producer("p2", Channel2);
                 p2.start();
                 p1.start();
-                android.test.concurrent.lock.Consumer c1 = new android.test.concurrent.lock.Consumer("c1", Channel);
-                android.test.concurrent.lock.Consumer c2 = new android.test.concurrent.lock.Consumer("c2", Channel);
+                android.test.concurrent.lock.Consumer c1 = new android.test.concurrent.lock.Consumer("c1", Channel2);
+                android.test.concurrent.lock.Consumer c2 = new android.test.concurrent.lock.Consumer("c2", Channel2);
                 c2.start();
                 c1.start();
             }

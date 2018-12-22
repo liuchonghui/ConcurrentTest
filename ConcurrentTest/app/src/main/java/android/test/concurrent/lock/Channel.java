@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Channel {
+public class Channel implements ChannelImpl {
     static int maxSize = 10;
     LinkedList<String> queue = new LinkedList<String>();
     ReentrantLock reentrantLock = new ReentrantLock();
@@ -38,7 +38,6 @@ public class Channel {
             return null;
         } finally {
             lock.unlock();
-            Log.d("PPP", "[" + name + "]unlock");
         }
     }
 
@@ -57,13 +56,10 @@ public class Channel {
             Log.d("PPP", "[" + name + "]Producing str : " + str);
             queue.add(str);
             consumerOptions.signalAll();
-            Log.d("PPP", "[" + name + "]signalAll");
-            Thread.sleep(3000L);
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
             lock.unlock();
-            Log.d("PPP", "[" + name + "]unlock");
         }
     }
 }

@@ -3,8 +3,8 @@ package android.test.concurrent.lock;
 
 public class Consumer extends Thread {
     String name;
-    Channel channel;
-    public Consumer(String name, Channel channel) {
+    ChannelImpl channel;
+    public Consumer(String name, ChannelImpl channel) {
         super();
         this.name = name;
         this.channel = channel;
