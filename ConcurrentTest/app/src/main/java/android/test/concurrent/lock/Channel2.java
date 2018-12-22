@@ -78,11 +78,11 @@ public class Channel2 implements ChannelImpl {
             putLock.unlock();
         }
         if (c == 0) {
-            signalNotEmpty();
+            signalConsumerOptions();
         }
     }
 
-    private void signalNotEmpty() {
+    private void signalConsumerOptions() {
         final ReentrantLock takeLock = this.takeLock;
         takeLock.lock();
         try {
